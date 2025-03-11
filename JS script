@@ -1,0 +1,124 @@
+
+//Clock
+
+navigator.geolocation.getCurrentPosition(
+ async (position) => {
+   let latitude = position.coords.latitude;
+   let longitude = position.coords.longitude;
+   
+   try{
+     let response = await fetch (`https://api.timezonedb.com/v2.1/get-time-zone?key=9IAOU43INUU0&format=json&by=position&lat=${latitude}&lng=${longitude}`);
+     let data = await response.json();
+     console.log(data)
+     if (data.status === "OK") {
+      document.getElementById("clock").textContent = `Time Zone: ${data.zoneName} (GMT ${data.gmtOffset / 3600})`;
+     } else {
+      document.getElementById("clock").textContent = "Failed to fetch time zone.";
+     }  
+  
+     
+   } catch (error){
+      document.getElementById("clock").textContent = "Failed to get time zone.";
+ }  
+   
+ },
+  
+(error) => {
+  console.error("Geolocation error", error);
+  document.getElementById("clock").textContent = "Location access denied.";
+} 
+);
+
+
+
+//Weather app
+
+const apiKey = "REDACTED";
+
+async function getWeather() {
+  const cityInput = document.getElementById("cityInput").value.trim();
+  if(!cityInput) {
+    alert("Please enter a city name.");
+    return;
+  }
+  
+  let city, state;
+  if (cityInput.includes(",")) {
+    [city, state] = cityInput.split(",").map(item => item.trim()); //.map() is space trim
+  //ensures any leading or trailing spaces are removed from both the city and state names.  
+    
+  } else {
+    city = cityInput;
+    state = "";
+  }
+  
+  let query = state ? `${city},${state},US` : city;
+  //This checks if state has a truthy value (not empty)
+  //If the condition is true, the first value (value_if_true) is used. 
+  //If the condition is false, the second value (value_if_false) is used.
+  
+  
+  const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
+  
+  try {
+    const weatherResponse = await fetch(currentWeatherUrl)
+    const weatherData = await weatherResponse.json();
+    
+    if (weatherData.cod == 200) {
+      //if data.cod == 200 menans if the code is sucessful //
+      
+      let tempC = weatherData.main.temp;
+      let tempF = (tempC * 9/5) + 32; // Convert to Fahrenheit
+      let locationName = `${weatherData.name}, ${state ? state.toUpperCase() : weatherData.sys.country} `;
+      document.getElementById("weather").innerHTML = `
+        <h2>${locationName}</h2>
+        <p>Temperature: ${tempC}°C / ${tempF.toFixed(1)}°F</p>
+        <p>Condition: ${weatherData.weather[0].description}</p>`;
+        } else {
+        document.getElementById("weather").textContent = `Weather Error: ${weatherData.message}`;
+        return;  
+ }
+      
+      
+  
+   
+    
+    const forecastResponse = await fetch(forecastUrl);
+    const forecastData = await forecastResponse.json();
+    
+    if (forecastData.cod == "200") {
+      let forecastHTML = "<h3>Next 3 Days Forecast at 12:00PM</h3>";
+       
+      //Forecast for 12PM each day
+      
+      let dailyForecasts = forecastData.list.filter(item => item.dt_txt.includes("12:00:00"));
+      
+        for (let i = 0; i < 3; i++) { // Get next 3 days
+                let day = dailyForecasts[i];
+                let date = new Date(day.dt_txt).toDateString();
+          
+         let tempC = day.main.temp; // Temperature in Celsius
+         let tempF = (tempC * 9/5) + 32; // Convert to Fahrenheit
+         let weatherDesc = day.weather[0].description; // Weather condition
+         let iconCode = day.weather[0].icon; // Icon code from API
+         let iconURL = `https://openweathermap.org/img/wn/${iconCode}.png`; // Icon URL
+          
+          
+         forecastHTML +=  `<p><strong>${date}</strong>: ${tempC}°C, ${tempF.toFixed(1)}°F, ${weatherDesc} 
+                    <img src="${iconURL}" alt="${weatherDesc}" width="50"></p>`;
+                   
+                
+            }
+        document.getElementById("forecast").innerHTML = forecastHTML;
+      
+    }
+    
+    
+    
+  } catch (error) {
+       document.getElementById("weather").textContent = "Failed to fetch weather.";
+    }
+  
+}
+
