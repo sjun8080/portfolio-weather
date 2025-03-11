@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js">
+    </script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+ <style>
+      body {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+      .container {
+            max-width: 400px; /* Keeps content within mobile-friendly width */
+            margin: auto;
+            padding: 20px;
+            background: #89CFF0;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            color:#fff;
+            
+        }
+      
+   
+      </style>
+  </head>
+  
+  
+  <body>
+    <div class="container" alt="Weather App Screenshot">
+      <img src="https://www.dropbox.com/scl/fi/4f3nmld8mhtsfpit0amlj/Screenshot-2025-03-07-195453.png?rlkey=3hd6zz5vyjplrklyibtwnfxg2&st=di8fz2ls&dl=1">
+      <h1>Weather App</h1>
+      <div id="clock" class="clock-style">Loading time...</div>
+      
+
+      
+      
+      
+      <input type="text" id="cityInput" placeholder="Enter city"> 
+      
+   
+      
+      <button class="btn btn-warning w-50" onclick="getWeather()">Get Weather</button>
+      <div id="weather"></div>
+      <div id="forecast"></div>
+      <script src="script.js"></script>
+     
+   </div>
+      <script src="script.js"></script>
+      
+  </body>   
+  
+
+</html>
