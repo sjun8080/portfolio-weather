@@ -1,0 +1,30 @@
+
+
+h1 {
+    text-align: center; /* Keep the title centered */
+}
+
+input {
+    width: 56%;  /* Make input and button full width */
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom:10px;
+}
+
+
+#weather, #forecast {
+    margin-top: 15px;
+    
+    background-color: #0F4C81;
+    border-left: 4px solid #3498db; /* Blue left border for styling */
+  border-right: 4px solid #3498db;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.container img {
+    max-width: 30%;  /* Ensures the image fits within the container */
+    height: auto;     /* Maintains the aspect ratio */
+    display: block;   /* Removes any space below the image */
+    margin: 0 auto;   /* Centers the image */
+}
+
