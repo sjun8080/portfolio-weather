@@ -33,7 +33,7 @@ navigator.geolocation.getCurrentPosition(
 
 //Weather app
 
-const apiKey = "d6fac415d0c5ce824b972dc036a30c74";
+const apiKey = "####";
 
 async function getWeather() {
   const cityInput = document.getElementById("cityInput").value.trim();
